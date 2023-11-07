@@ -79,7 +79,27 @@ class Tree {
 			}
 		}
 	}
+	find(val, root = this.root) {
+		if (root === null) {
+			return "does not exist";
+		}
+		if (val === root.data) return root;
+		else if (val > root.data) return this.find(val, root.right);
+		else if (val < root.data) return this.find(val, root.left);
+	}
+	levelOrder(callback, root = this.root) {
+		//iteration approach
+		if (root === null) return;
+		let queue = [];
+		queue.push(root);
+		while (queue.length !== 0) {
+			callback(queue[0].data);
+			if (queue[0].left !== null) queue.push(queue[0].left);
+			if (queue[0].right !== null) queue.push(queue[0].right);
+			queue.shift();
+		}
+	}
 }
 
-const myArr = new Tree([1,2]);
-prettyPrint(myArr.root);
+const myTree = new Tree([1, 2, 3, 4, 5]);
+prettyPrint(myTree.root);
