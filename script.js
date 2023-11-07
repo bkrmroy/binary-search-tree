@@ -12,6 +12,7 @@ class Tree {
 	constructor(arr) {
 		this.root = buildTree(mergeSort(arr));
 	}
+
 	insert(val) {
 		//iterative approach is used here,
 		//this function can also change previous branches
@@ -46,10 +47,39 @@ class Tree {
 			}
 		}
 	}
-
+	findMinNode(root = this.root) {
+		return root.left !== null ? this.findMinNode(root.left) : root;
+	}
+	delete(val, root = this.root) {
+		if (root === null) return root;
+		if (val > root.data) {
+			root.right = this.delete(val, root.right);
+			return root;
+		} else if (val < root.data) {
+			root.left = this.delete(val, root.left);
+			return root;
+		} else {
+			if (root.right === null && root.left === null) {
+				root = null;
+				return root;
+			}
+			if (root.right !== null && root.left === null) {
+				root = root.right;
+				return root;
+			}
+			if (root.left !== null && root.right === null) {
+				root = root.left;
+				return root;
+			}
+			if (root.left !== null && root.right !== null) {
+				const newRoot = this.findMinNode(root.right);
+				root.data = newRoot.data;
+				root.right = this.delete(newRoot.data, root.right);
+				return root;
+			}
+		}
+	}
 }
 
-const myArr = new Tree([1, 2, 3, 4, 5, 6, 7]);
-const banana = 3;
-const a = 2343;
+const myArr = new Tree([1,2]);
 prettyPrint(myArr.root);
