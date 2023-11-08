@@ -99,7 +99,28 @@ class Tree {
 			queue.shift();
 		}
 	}
+	inOrder(callback, root = this.root, arr = []) {
+		if (root === null) return null;
+		if (root.left !== null) this.inOrder(callback, root.left, arr);
+		callback ? callback(root.data) : arr.push(root.data);
+		if (root.right !== null) this.inOrder(callback, root.right, arr);
+		if (arr.length != 0) return arr;
+	}
+	preOrder(callback, root = this.root, arr = []) {
+		if (root === null) return null;
+		callback ? callback(root.data) : arr.push(root.data);
+		if (root.left !== null) this.preOrder(callback, root.left, arr);
+		if (root.right !== null) this.preOrder(callback, root.right, arr);
+		if (arr.length != 0) return arr;
+	}
+	postOrder(callback, root = this.root, arr = []) {
+		if (root === null) return null;
+		if (root.left !== null) this.postOrder(callback, root.left, arr);
+		if (root.right !== null) this.postOrder(callback, root.right, arr);
+		callback ? callback(root.data) : arr.push(root.data);
+		if (arr.length != 0) return arr;
+	}
 }
 
-const myTree = new Tree([1, 2, 3, 4, 5]);
+const myTree = new Tree([6, 7, 8, 9, 12, -2, -45]);
 prettyPrint(myTree.root);
