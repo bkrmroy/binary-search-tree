@@ -60,8 +60,7 @@ class Tree {
 			return root;
 		} else {
 			if (root.right === null && root.left === null) {
-				root = null;
-				return root;
+				return (root = null);
 			}
 			if (root.right !== null && root.left === null) {
 				root = root.right;
@@ -120,7 +119,24 @@ class Tree {
 		callback ? callback(root.data) : arr.push(root.data);
 		if (arr.length != 0) return arr;
 	}
+	height(root = this.root) {
+		if (root === null) return 0;
+		let lHeight = this.height(root.left) + 1;
+		let rHeight = this.height(root.right) + 1;
+
+		if (lHeight > rHeight) {
+			return lHeight;
+		} else {
+			return rHeight;
+		}
+	}
+	depth(rootValue, root = this.root) {
+		if (root === null) return;
+		if (rootValue == root.data) return 0;
+		if (rootValue > root.data) return this.depth(rootValue, root.right) + 1;
+		if (rootValue < root.data) return this.depth(rootValue, root.left) + 1;
+	}
 }
 
-const myTree = new Tree([6, 7, 8, 9, 12, -2, -45]);
+const myTree = new Tree([1, 2]);
 prettyPrint(myTree.root);
