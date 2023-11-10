@@ -107,7 +107,17 @@ class Tree {
 		if (rootValue > root.data) return this.depth(rootValue, root.right) + 1;
 		if (rootValue < root.data) return this.depth(rootValue, root.left) + 1;
 	}
+	isBalanced(root = this.root) {
+		let lHeight = this.height(root.left) + 1;
+		let rHeight = this.height(root.right) + 1;
+
+		return Math.abs(lHeight - rHeight) < 2 ? "true" : "false";
+	}
+	reBalance(root = this.root) {
+		let arr = this.inOrder();
+		return (this.root = buildTree(mergeSort(arr)));
+	}
 }
 
-const myTree = new Tree([4, 3]);
+const myTree = new Tree([4, 3, 5, 6, 84, 3541, 54, -5]);
 prettyPrint(myTree.root);
