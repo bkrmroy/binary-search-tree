@@ -12,40 +12,11 @@ class Tree {
 	constructor(arr) {
 		this.root = buildTree(mergeSort(arr));
 	}
-
-	insert(val) {
-		//iterative approach is used here,
-		//this function can also change previous branches
-		let currentRoot = this.root;
-		while (currentRoot !== null) {
-			if (val > currentRoot.data) {
-				if (currentRoot.right === null) {
-					currentRoot.right = new Node(val);
-					return;
-				}
-				if (val < currentRoot.right.data) {
-					let tempRoot = currentRoot.right;
-					currentRoot.right = new Node(val);
-					currentRoot.right.right = tempRoot;
-					return;
-				}
-				currentRoot = currentRoot.right;
-			} else if (val < currentRoot.data) {
-				if (currentRoot.left === null) {
-					currentRoot.left = new Node(val);
-					return;
-				}
-				if (val > currentRoot.left.data) {
-					let tempRoot = currentRoot.left;
-					currentRoot.left = new Node(val);
-					currentRoot.left.left = tempRoot;
-					return;
-				}
-				currentRoot = currentRoot.left;
-			} else {
-				return "already in tree";
-			}
-		}
+	insert(val, root = this.root) {
+		if (val > root.data && root.right === null) root.right = new Node(val);
+		else if (val < root.data && root.left === null) root.left = new Node(val);
+		else if (val > root.data) return this.insert(val, root.right);
+		else if (val < root.data) return this.insert(val, root.left);
 	}
 	findMinNode(root = this.root) {
 		return root.left !== null ? this.findMinNode(root.left) : root;
@@ -138,5 +109,5 @@ class Tree {
 	}
 }
 
-const myTree = new Tree([1, 2]);
+const myTree = new Tree([4, 3]);
 prettyPrint(myTree.root);
